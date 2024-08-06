@@ -1,19 +1,28 @@
+//batch.ts已增加函数进入返回日志
 import {Node, Link, Layout} from './layout'
 import {GridRouter} from './gridrouter'
 import {Point} from './geom'
-
+import {_func_enter_log,_funcNoArgs_enter_log,_func_return_log,_funcNoArgs_return_log} from './_func_log'
+const _srcFilePath:string='WebCola/src/batch.ts';
+const _className:string='';
 /**
  * @property nudgeGap spacing between parallel edge segments
  * @property margin space around nodes
  * @property groupMargin space around groups
  */
 export function gridify(pgLayout, nudgeGap: number, margin: number, groupMargin: number) {
+    const _classMethodName:string=`${_className}.gridify`
+    _func_enter_log(_srcFilePath,_classMethodName,{pgLayout,nudgeGap,margin,groupMargin})
     pgLayout.cola.start(0, 0, 0, 10, false);
     let gridrouter = route(pgLayout.cola.nodes(), pgLayout.cola.groups(), margin, groupMargin);
-    return gridrouter.routeEdges<any>(pgLayout.powerGraph.powerEdges, nudgeGap, e=> e.source.routerNode.id, e=> e.target.routerNode.id);
+    const ret= gridrouter.routeEdges<any>(pgLayout.powerGraph.powerEdges, nudgeGap, e=> e.source.routerNode.id, e=> e.target.routerNode.id);
+    _func_return_log(_srcFilePath,_classMethodName,{pgLayout,nudgeGap,margin,groupMargin},ret)
+    return ret;
 }
 
 function route(nodes, groups, margin: number, groupMargin: number) {
+    const _classMethodName:string=`${_className}.route`
+    _func_enter_log(_srcFilePath,_classMethodName,{nodes,groups,margin,groupMargin})
     nodes.forEach(d => {
         d.routerNode = <any>{
             name: d.name,
@@ -29,12 +38,16 @@ function route(nodes, groups, margin: number, groupMargin: number) {
     });
     let gridRouterNodes = nodes.concat(groups).map((d, i) => {
         d.routerNode.id = i;
-        return d.routerNode;
+        const ret= d.routerNode;
+        _func_return_log(_srcFilePath,_classMethodName,{nodes,groups,margin,groupMargin},ret)
+        return ret;
     });
-    return new GridRouter(gridRouterNodes, {
+    const ret= new GridRouter(gridRouterNodes, {
         getChildren: (v: any) => v.children,
         getBounds: v => v.bounds
     }, margin - groupMargin);
+    _func_return_log(_srcFilePath,_classMethodName,{nodes,groups,margin,groupMargin},ret)
+    return ret;
 }
 
 export function powerGraphGridLayout(
@@ -42,6 +55,8 @@ export function powerGraphGridLayout(
     size: number[],
     grouppadding: number)
 {
+    const _classMethodName:string=`${_className}.powerGraphGridLayout`
+    _func_enter_log(_srcFilePath,_classMethodName,{graph,size,grouppadding})
     // compute power graph
     var powerGraph;
     graph.nodes.forEach((v,i) => (<any>v).index = i);
@@ -86,7 +101,7 @@ export function powerGraphGridLayout(
     // final layout taking node positions from above as starting positions
     // subject to group containment constraints
     // and then gridifying the layout
-    return {
+    const ret= {
         cola:
             new Layout()
             .convergenceThreshold(1e-3)
@@ -106,4 +121,6 @@ export function powerGraphGridLayout(
             }).start(50, 0, 100, 0, false),
         powerGraph: powerGraph
     };
+    _func_return_log(_srcFilePath,_classMethodName,{graph,size,grouppadding},ret)
+    return ret;
 }
