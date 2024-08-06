@@ -1,5 +1,6 @@
 //函数进入、返回打印日志
 
+import { isIgnore_methodFullName,printLog_argsWhenFuncRet} from './_func_log_cfg'
 //参数字典
 interface _Arg_Dict{
   [argName:string]:any
@@ -12,10 +13,15 @@ function _argDict_jsonText(arg_dict:_Arg_Dict|null){
   }
   return argDict_jsonTxt;
 }
+
+
 //函数进入 打印日志
 export function   _func_enter_log(srcFilePath:string,classMethodName:string,arg_dict:_Arg_Dict|null ){
+  if(isIgnore_methodFullName(srcFilePath,classMethodName)){
+    return;
+  }
   const argDict_jsonTxt:string=_argDict_jsonText(arg_dict)
-  const msg:string=`#func_enter#${srcFilePath}#${classMethodName}#${argDict_jsonTxt}`;
+  const msg:string=`#func_enter#${srcFilePath}#${classMethodName}#args:${argDict_jsonTxt}`;
   console.log(msg)
 // console.log(`#enter#WebCola/src/adaptor.ts:LayoutAdaptor.trigger:args_json=[e=[${JSON.stringify(e)}]]`)
 }
@@ -25,8 +31,15 @@ export function   _funcNoArgs_enter_log(srcFilePath:string,classMethodName:strin
 }
 //函数返回 打印日志
 export function   _func_return_log(srcFilePath:string,classMethodName:string,arg_dict:_Arg_Dict,ret_val:any){
+  if(isIgnore_methodFullName(srcFilePath,classMethodName)){
+    return;
+  }
   const argDict_jsonTxt:string=_argDict_jsonText(arg_dict)
-  const msg:string=`#func_return#${srcFilePath}#${classMethodName}#${argDict_jsonTxt}#${JSON.stringify(ret_val)}`;
+  let msg:string=`#func_return#${srcFilePath}#${classMethodName}#ret:${JSON.stringify(ret_val)}`;
+  //是否打印参数们
+  if(printLog_argsWhenFuncRet()){
+    msg = `${msg}#args:${argDict_jsonTxt}`
+  }
   console.log(msg)
 // console.log(`#return#WebCola/src/adaptor.ts:LayoutAdaptor.trigger:args_json=[e=[${JSON.stringify(e)}]]:ret_json=${JSON.stringify(ret)}`)
 }
