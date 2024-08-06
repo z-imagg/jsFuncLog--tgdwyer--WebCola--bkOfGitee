@@ -1,4 +1,4 @@
-//adaptor.js已增加函数进入返回日志
+//adaptor.ts已增加函数进入返回日志
 import {Layout, EventType, Event} from './layout'
 import {_func_enter_log,_funcNoArgs_enter_log,_func_return_log,_funcNoArgs_return_log} from './_func_log'
 const _srcFilePath:string='WebCola/src/adaptor.ts';
