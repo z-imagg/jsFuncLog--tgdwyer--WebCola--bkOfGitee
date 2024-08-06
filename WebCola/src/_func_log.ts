@@ -1,0 +1,36 @@
+//函数进入、返回打印日志
+
+//参数字典
+interface _Arg_Dict{
+  [argName:string]:any
+}
+//参数字典转json文本
+function _argDict_jsonText(arg_dict:_Arg_Dict|null){
+  let argDict_jsonTxt:string=""
+  if(arg_dict){
+    argDict_jsonTxt=JSON.stringify(arg_dict)
+  }
+  return argDict_jsonTxt;
+}
+//函数进入 打印日志
+export function   _func_enter_log(srcFilePath:string,classMethodName:string,arg_dict:_Arg_Dict|null ){
+  const argDict_jsonTxt:string=_argDict_jsonText(arg_dict)
+  const msg:string=`#func_enter#${srcFilePath}#${classMethodName}#${argDict_jsonTxt}`;
+  console.log(msg)
+// console.log(`#enter#WebCola/src/adaptor.ts:LayoutAdaptor.trigger:args_json=[e=[${JSON.stringify(e)}]]`)
+}
+//无参函数进入 打印日志
+export function   _funcNoArgs_enter_log(srcFilePath:string,classMethodName:string  ){
+  _func_enter_log(srcFilePath,classMethodName,null)
+}
+//函数返回 打印日志
+export function   _func_return_log(srcFilePath:string,classMethodName:string,arg_dict:_Arg_Dict,ret_val:any){
+  const argDict_jsonTxt:string=_argDict_jsonText(arg_dict)
+  const msg:string=`#func_return#${srcFilePath}#${classMethodName}#${argDict_jsonTxt}#${JSON.stringify(ret_val)}`;
+  console.log(msg)
+// console.log(`#return#WebCola/src/adaptor.ts:LayoutAdaptor.trigger:args_json=[e=[${JSON.stringify(e)}]]:ret_json=${JSON.stringify(ret)}`)
+}
+//无参数函数返回 打印日志
+export function   _funcNoArgs_return_log(srcFilePath:string,classMethodName:string ,ret_val:any){
+  _func_return_log(srcFilePath,classMethodName,null,ret_val)
+}
