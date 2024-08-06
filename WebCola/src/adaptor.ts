@@ -22,19 +22,36 @@ import {Layout, EventType, Event} from './layout'
             var o = options;
 
             if ( o.trigger ) {
-                this.trigger = o.trigger;
+                this.trigger =  ()=>{
+                    console.log(`#enter#WebCola/src/adaptor.ts:LayoutAdaptor.this.trigger`)
+                    o.trigger();
+                    console.log(`#return#WebCola/src/adaptor.ts:LayoutAdaptor.this.trigger`)
+                }
             }
 
             if ( o.kick ){
-                this.kick = o.kick;
+                this.kick = ()=>{
+                    console.log(`#enter#WebCola/src/adaptor.ts:LayoutAdaptor.this.kick`)
+                    o.kick();
+                    console.log(`#return#WebCola/src/adaptor.ts:LayoutAdaptor.this.kick`)
+                }
             }
 
             if ( o.drag ){
-                this.drag = o.drag;
+                this.drag = ()=>{
+                    console.log(`#enter#WebCola/src/adaptor.ts:LayoutAdaptor.this.drag`)
+                    o.drag();
+                    console.log(`#return#WebCola/src/adaptor.ts:LayoutAdaptor.this.drag`)
+                }
             }
 
             if ( o.on ){
-                this.on = o.on;
+                this.on = (eventType: EventType | string, listener: () => void)=>{
+                    console.log(`#enter#WebCola/src/adaptor.ts:LayoutAdaptor.this.on`)
+                    o.on(EventType,listener);
+                    console.log(`#return#WebCola/src/adaptor.ts:LayoutAdaptor.this.on`)
+                    return this;
+                }
             }
 
             this.dragstart = this.dragStart = Layout.dragStart;
