@@ -1,3 +1,4 @@
+//layout.ts已增加函数进入返回日志
 import * as powergraph from './powergraph'
 import {LinkLengthAccessor, symmetricDiffLinkLengths, jaccardLinkLengths, generateDirectedEdgeConstraints} from './linklengths'
 import {Descent} from './descent'
@@ -5,6 +6,11 @@ import {Rectangle, Projection, makeEdgeTo, makeEdgeBetween} from './rectangle'
 import {Calculator} from './shortestpaths'
 import {TangentVisibilityGraph, TVGPoint} from './geom'
 import {separateGraphs, applyPacking} from './handledisconnected'
+
+
+import {_func_enter_log,_funcNoArgs_enter_log,_func_return_log,_funcNoArgs_return_log,_funcNoArgs_noReturn_log,_func_noReturn_log} from './_func_log'
+const _srcFilePath:string='WebCola/src/layout.ts';
+
     /**
      * The layout process fires three events:
      *  - start: layout iterations started
@@ -80,6 +86,9 @@ import {separateGraphs, applyPacking} from './handledisconnected'
     export interface LinkLengthTypeAccessor extends LinkLengthAccessor<Link<Node | number>> {
         getType: LinkNumericPropertyAccessor;
     }
+
+
+const _className:string='Layout';
     /**
      * Main interface to cola layout.
      * @class Layout
@@ -113,6 +122,8 @@ import {separateGraphs, applyPacking} from './handledisconnected'
         // subscribe a listener to an event
         // sub-class and override this method to replace with a more sophisticated eventing mechanism
         public on(e: EventType | string, listener: (event?: Event) => void): this {
+            const _classMethodName:string=`${_className}.on`
+            _func_enter_log(_srcFilePath,_classMethodName,{e,listener})
             // override me!
             if (!this.event) this.event = {};
             if (typeof e === 'string') {
@@ -120,32 +131,44 @@ import {separateGraphs, applyPacking} from './handledisconnected'
             } else {
                 this.event[e] = listener;
             }
-            return this;
+            const ret= this;
+            _func_return_log(_srcFilePath,_classMethodName,{e,listener},ret)
+            return ret;
         }
 
         // a function that is notified of events like "tick"
         // sub-classes can override this method to replace with a more sophisticated eventing mechanism
         protected trigger(e: Event) {
+            const _classMethodName:string=`${_className}.trigger`
+            _func_enter_log(_srcFilePath,_classMethodName,{e})
             if (this.event && typeof this.event[e.type] !== 'undefined') {
                 this.event[e.type](e);
             }
+            _func_noReturn_log(_srcFilePath,_classMethodName,{e})
         }
 
         // a function that kicks off the iteration tick loop
         // it calls tick() repeatedly until tick returns true (is converged)
         // subclass and override it with something fancier (e.g. dispatch tick on a timer)
         protected kick(): void {
+            const _classMethodName:string=`${_className}.kick`
+            _funcNoArgs_enter_log(_srcFilePath,_classMethodName )
             while (!this.tick());
+            _funcNoArgs_noReturn_log(_srcFilePath,_classMethodName)
         }
 
         /**
          * iterate the layout.  Returns true when layout converged.
          */
         protected tick(): boolean {
+            const _classMethodName:string=`${_className}.tick`
+            _funcNoArgs_enter_log(_srcFilePath,_classMethodName )
             if (this._alpha < this._threshold) {
                 this._running = false;
                 this.trigger({ type: EventType.end, alpha: this._alpha = 0, stress: this._lastStress });
-                return true;
+                const ret= true;
+                _funcNoArgs_return_log(_srcFilePath,_classMethodName,ret)
+                return ret;
             }
             const n = this._nodes.length,
                   m = this._links.length;
@@ -176,11 +199,15 @@ import {separateGraphs, applyPacking} from './handledisconnected'
             this.updateNodePositions();
 
             this.trigger({ type: EventType.tick, alpha: this._alpha, stress: this._lastStress });
-            return false;
+            const ret= false;
+            _funcNoArgs_return_log(_srcFilePath,_classMethodName,ret)
+            return ret;
         }
 
         // copy positions out of descent instance into each of the nodes' center coords
         private updateNodePositions(): void {
+            const _classMethodName:string=`${_className}.updateNodePositions`
+            _funcNoArgs_enter_log(_srcFilePath,_classMethodName )
             const x = this._descent.x[0], y = this._descent.x[1];
             let o, i = this._nodes.length;
             while (i--) {
@@ -188,6 +215,7 @@ import {separateGraphs, applyPacking} from './handledisconnected'
                 o.x = x[i];
                 o.y = y[i];
             }
+            _funcNoArgs_noReturn_log(_srcFilePath,_classMethodName)
         }
 
         /**
@@ -200,6 +228,8 @@ import {separateGraphs, applyPacking} from './handledisconnected'
         nodes(): Array<Node>
         nodes(v: Array<InputNode>): this
         nodes(v?: any): any {
+            const _classMethodName:string=`${_className}.nodes`
+            _func_enter_log(_srcFilePath,_classMethodName,{v} )
             if (!v) {
                 if (this._nodes.length === 0 && this._links.length > 0) {
                     // if we have links but no nodes, create the nodes array now with empty objects for the links to point at.
@@ -213,10 +243,14 @@ import {separateGraphs, applyPacking} from './handledisconnected'
                         this._nodes[i] = {};
                     }
                 }
-                return this._nodes;
+                const ret= this._nodes;
+                _func_return_log(_srcFilePath,_classMethodName,{v},ret)
+                return ret;
             }
             this._nodes = v;
-            return this;
+            const ret= this;
+            _func_return_log(_srcFilePath,_classMethodName,{v},ret)
+            return ret;
         }
 
         /**
@@ -227,6 +261,8 @@ import {separateGraphs, applyPacking} from './handledisconnected'
         groups(): Array<Group>
         groups(x: Array<Group>): this
         groups(x?: Array<Group>): any {
+            const _classMethodName:string=`${_className}.groups`
+            _func_enter_log(_srcFilePath,_classMethodName,{x} )
             if (!x) return this._groups;
             this._groups = x;
             this._rootGroup = {};
@@ -248,14 +284,20 @@ import {separateGraphs, applyPacking} from './handledisconnected'
             });
             this._rootGroup.leaves = this._nodes.filter(v => typeof v.parent === 'undefined');
             this._rootGroup.groups = this._groups.filter(g => typeof g.parent === 'undefined');
-            return this;
+            const ret= this;
+            _func_return_log(_srcFilePath,_classMethodName,{x},ret)
+            return ret;
         }
 
         powerGraphGroups(f: Function): this {
+            const _classMethodName:string=`${_className}.powerGraphGroups`
+            _func_enter_log(_srcFilePath,_classMethodName,{f} )
             var g = powergraph.getGroups(this._nodes, this._links, this.linkAccessor, this._rootGroup);
             this.groups(g.groups);
             f(g);
-            return this;
+            const ret= this;
+            _func_return_log(_srcFilePath,_classMethodName,{f},ret)
+            return ret;
         }
 
         /**
@@ -417,7 +459,13 @@ import {separateGraphs, applyPacking} from './handledisconnected'
         alpha(): number
         alpha(x: number): this
         alpha(x?: number): any {
-            if (!arguments.length) return this._alpha;
+            const _classMethodName:string=`${_className}.alpha`
+            _func_enter_log(_srcFilePath,_classMethodName,{x} )
+            if (!arguments.length) {
+                const ret= this._alpha;
+                _func_return_log(_srcFilePath,_classMethodName,{x},ret)
+                return ret;
+            }
             else {
                 x = +x;
                 if (this._alpha) { // if we're already running
@@ -430,7 +478,9 @@ import {separateGraphs, applyPacking} from './handledisconnected'
                         this.kick();
                     }
                 }
-                return this;
+                const ret= this;
+                _func_return_log(_srcFilePath,_classMethodName,{x},ret)
+                return ret;
             }
         }
 
@@ -503,6 +553,8 @@ import {separateGraphs, applyPacking} from './handledisconnected'
             keepRunning = true,
             centerGraph = true,
         ): this {
+            const _classMethodName:string=`${_className}.start`
+            _func_enter_log(_srcFilePath,_classMethodName,{initialUnconstrainedIterations,initialUserConstraintIterations,initialAllConstraintsIterations,gridSnapIterations,keepRunning,centerGraph} )
             var i: number,
                 j: number,
                 n = (<Array<any>>this.nodes()).length,
@@ -644,10 +696,14 @@ import {separateGraphs, applyPacking} from './handledisconnected'
 
             this.updateNodePositions();
             this.separateOverlappingComponents(w, h, centerGraph);
-            return keepRunning ? this.resume() : this;
+            const ret= keepRunning ? this.resume() : this;
+            _func_return_log(_srcFilePath,_classMethodName,{initialUnconstrainedIterations,initialUserConstraintIterations,initialAllConstraintsIterations,gridSnapIterations,keepRunning,centerGraph},ret)
+            return ret;
         }
 
         private initialLayout(iterations: number, x: number[], y: number[]) {
+            const _classMethodName:string=`${_className}.initialLayout`
+            _func_enter_log(_srcFilePath,_classMethodName,{iterations,x,y} )
             if (this._groups.length > 0 && iterations > 0) {
                 // construct a flat graph with dummy nodes for the groups and edges connecting group dummy nodes to their children
                 // todo: edges attached to groups are replaced with edges connected to the corresponding group dummy node
@@ -682,10 +738,14 @@ import {separateGraphs, applyPacking} from './handledisconnected'
             } else {
                 this._descent.run(iterations);
             }
+
+            _func_noReturn_log(_srcFilePath,_classMethodName,{iterations,x,y})
         }
 
         // recalculate nodes position for disconnected graphs
         private separateOverlappingComponents(width: number, height: number, centerGraph: boolean = true): void {
+            const _classMethodName:string=`${_className}.separateOverlappingComponents`
+            _func_enter_log(_srcFilePath,_classMethodName,{width,height, centerGraph} )
             // recalculate nodes position for disconnected graphs
             if (!this._distanceMatrix && this._handleDisconnected) {
                 let x = this._descent.x[0], y = this._descent.x[1];
@@ -700,6 +760,7 @@ import {separateGraphs, applyPacking} from './handledisconnected'
                     }
                 });
             }
+            _func_noReturn_log(_srcFilePath,_classMethodName,{width,height, centerGraph})
         }
 
         resume(): this {
@@ -713,10 +774,13 @@ import {separateGraphs, applyPacking} from './handledisconnected'
         /// find a visibility graph over the set of nodes.  assumes all nodes have a
         /// bounds property (a rectangle) and that no pair of bounds overlaps.
         prepareEdgeRouting(nodeMargin: number = 0) {
+            const _classMethodName:string=`${_className}.prepareEdgeRouting`
+            _func_enter_log(_srcFilePath,_classMethodName,{nodeMargin} )
             this._visibilityGraph = new TangentVisibilityGraph(
                 this._nodes.map(function (v) {
                     return v.bounds.inflate(-nodeMargin).vertices();
                 }));
+                _func_noReturn_log(_srcFilePath,_classMethodName,{nodeMargin})
         }
 
         /**
@@ -729,6 +793,8 @@ import {separateGraphs, applyPacking} from './handledisconnected'
          *                      of the edge by.  Defaults to 5.
          */
         routeEdge(edge, ah: number = 5, draw) {
+            const _classMethodName:string=`${_className}.routeEdge`
+            _func_enter_log(_srcFilePath,_classMethodName,{edge,ah,draw} )
             var lineData = [];
             //if (d.source.id === 10 && d.target.id === 11) {
             //    debugger;
@@ -769,7 +835,9 @@ import {separateGraphs, applyPacking} from './handledisconnected'
             //        })
             //    }
             //})
-            return lineData;
+            const ret= lineData;
+            _func_return_log(_srcFilePath,_classMethodName,{edge,ah,draw},ret)
+            return ret;
         }
 
         //The link source and target may be just a node index, or they may be references to nodes themselves.
@@ -792,12 +860,15 @@ import {separateGraphs, applyPacking} from './handledisconnected'
         // Bit 2 stores the dragging state, from mousedown to mouseup.
         // Bit 3 stores the hover state, from mouseover to mouseout.
         static dragStart(d: Node | Group) {
+            const _classMethodName:string=`${_className}.dragStart`
+            _func_enter_log(_srcFilePath,_classMethodName,{d} )
             if (isGroup(d)) {
                 Layout.storeOffset(d, Layout.dragOrigin(d));
             } else {
                 Layout.stopNode(d);
                 d.fixed |= 2; // set bit 2
             }
+            _func_noReturn_log(_srcFilePath,_classMethodName,{d})
         }
 
         // we clobber any existing desired positions for nodes
@@ -810,6 +881,8 @@ import {separateGraphs, applyPacking} from './handledisconnected'
         // we store offsets for each node relative to the centre of the ancestor group
         // being dragged in a pair of properties on the node
         private static storeOffset(d: Group, origin: { x: number, y: number }) {
+            const _classMethodName:string=`${_className}.storeOffset`
+            _func_enter_log(_srcFilePath,_classMethodName,{d,origin} )
             if (typeof d.leaves !== 'undefined') {
                 d.leaves.forEach(v => {
                     v.fixed |= 2;
@@ -821,6 +894,7 @@ import {separateGraphs, applyPacking} from './handledisconnected'
             if (typeof d.groups !== 'undefined') {
                 d.groups.forEach(g => Layout.storeOffset(g, origin));
             }
+            _func_noReturn_log(_srcFilePath,_classMethodName,{d,origin})
         }
 
         // the drag origin is taken as the centre of the node or group
@@ -838,6 +912,8 @@ import {separateGraphs, applyPacking} from './handledisconnected'
         // for groups, the drag translation is propagated down to all of the children of
         // the group.
         static drag(d: Node | Group, position: { x: number, y: number }) {
+            const _classMethodName:string=`${_className}.drag`
+            _func_enter_log(_srcFilePath,_classMethodName,{d,position} )
             if (isGroup(d)) {
                 if (typeof d.leaves !== 'undefined') {
                     d.leaves.forEach(v => {
@@ -854,11 +930,14 @@ import {separateGraphs, applyPacking} from './handledisconnected'
                 (<any>d).px = position.x;
                 (<any>d).py = position.y;
             }
+            _func_noReturn_log(_srcFilePath,_classMethodName,{d,position})
         }
 
         // we unset only bits 2 and 3 so that the user can fix nodes with another a different
         // bit such that the lock persists between drags
         static dragEnd(d) {
+            const _classMethodName:string=`${_className}.dragEnd`
+            _func_enter_log(_srcFilePath,_classMethodName,{d} )
             if (isGroup(d)) {
                 if (typeof d.leaves !== 'undefined') {
                     d.leaves.forEach(v => {
@@ -874,6 +953,7 @@ import {separateGraphs, applyPacking} from './handledisconnected'
                 d.fixed &= ~6; // unset bits 2 and 3
                 //d.fixed = 0;
             }
+            _func_noReturn_log(_srcFilePath,_classMethodName,{d})
         }
 
         // in d3 hover temporarily locks nodes, currently not used in cola
