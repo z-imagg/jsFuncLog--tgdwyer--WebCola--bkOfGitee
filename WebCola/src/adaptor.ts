@@ -1,44 +1,47 @@
 import {Layout, EventType, Event} from './layout'
 
     export class LayoutAdaptor extends Layout {
-
+        _options_
         // dummy functions in case not defined by client
-        trigger(e: Event) {};
-        kick() {};
-        drag() {};
-        on(eventType: EventType | string, listener: () => void) : this { return this; };
+        trigger(e: Event) {
+            if ( this && this._options_ && this._options_.trigger ) {
+                this._options_.trigger(e);
+            }
+        };
+        kick() {
+            if ( this && this._options_ &&  this._options_.kick ){
+                this._options_.kick();
+            }
+        };
+        drag() {
+            if (this && this._options_ &&   this._options_.drag ){
+                this._options_.drag();
+            }
+        };
+        on(eventType: EventType | string, listener: () => void) : this { 
+            if (this && this._options_ &&    this._options_.on ){
+                this._options_.on(eventType,listener);
+            }
+            return this; 
+        };
 
-        dragstart: (d:any) => void;
-        dragStart: (d:any) => void;
-        dragend: (d:any) => void;
-        dragEnd: (d:any) => void;
+        dragstart(d:any) {
+            Layout.dragStart(d)
+        };
+        dragStart (d:any) {
+            Layout.dragStart(d)
+        };
+        dragend (d:any)  {
+            Layout.dragEnd(d)
+        };
+        dragEnd (d:any)  {
+            Layout.dragEnd(d)
+        };
 
         constructor( options ) {
             super();
-
             // take in implementation as defined by client
-
-            var self = this;
-            var o = options;
-
-            if ( o.trigger ) {
-                this.trigger = o.trigger;
-            }
-
-            if ( o.kick ){
-                this.kick = o.kick;
-            }
-
-            if ( o.drag ){
-                this.drag = o.drag;
-            }
-
-            if ( o.on ){
-                this.on = o.on;
-            }
-
-            this.dragstart = this.dragStart = Layout.dragStart;
-            this.dragend = this.dragEnd = Layout.dragEnd;
+            this._options_ = options;
         }
     }
 
