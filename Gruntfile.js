@@ -13,7 +13,7 @@ module.exports = function (grunt) {
       },
       tests: {
         files: ["WebCola/test/*.ts","WebCola/test/*.js"],
-        tasks: ["ts:test", "browserify:test"]
+        tasks: ["ts:test", "browserify:test", "qunit"]
       }
     },
     browserify: {
@@ -120,12 +120,12 @@ module.exports = function (grunt) {
         }
       }
     },
-    // qunit: {
-    //   all: ['WebCola/test/*.html'],
-    //   options: {
-    //     force: true
-    //   }
-    // },
+    qunit: {
+      all: ['WebCola/test/*.html'],
+      options: {
+        force: true
+      }
+    },
     examples: {
       all: ["WebCola/examples/*.html"]
     },
@@ -152,10 +152,10 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.registerTask('default', ['ts', 'browserify', 'uglify' ]);
-  grunt.registerTask('nougly', ['ts', 'browserify' ]);
+  grunt.registerTask('default', ['ts', 'browserify', 'uglify', 'qunit']);
+  grunt.registerTask('nougly', ['ts', 'browserify', 'qunit']);
   grunt.registerTask('nougly-notest', ['ts']);
-  grunt.registerTask('test', ['ts:test','browserify:test' ]);
+  grunt.registerTask('test', ['ts:test','browserify:test','qunit']);
   grunt.registerTask('examples', ['browserify:examples']);
   grunt.registerTask('docs', ['typedoc']);
   grunt.registerTask('full', ['default']);
