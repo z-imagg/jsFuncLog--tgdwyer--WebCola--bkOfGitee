@@ -10,7 +10,9 @@ export OPENSSL_CONF=/etc/ssl
 npx phantomjs --version #phantomjs正常运行
 
 #删除上次编译结果
-rm -fr dist
+rm -fr /app2/WebCola/dist
+mkdir -p /app2/WebCola/dist/src
+cp /app2/WebCola/WebCola/src/_func_log.esm.js /app2/WebCola/dist/src/
 
 PrjDir=/app2/WebCola
 
