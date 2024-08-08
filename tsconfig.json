@@ -4,7 +4,12 @@
     "sourceMap": true,
     "declaration": true,
     "outDir": "dist",
-    "rootDir": "./WebCola"
+    "rootDir": "./WebCola",
+    "baseUrl": "./", // 设置基础目录为当前目录(即tsconfig.json所在目录)
+    "paths": {
+      "@/*": ["WebCola/src/*"] // 将 @ 符号映射到 WebCola/src 目录
+    }
+
   },
   "include": [
     "WebCola/src/**/*.ts", "WebCola/*.ts"
