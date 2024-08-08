@@ -18,7 +18,7 @@ PrjDir=/app2/WebCola
 
 source PrjNodeJsEnvActivate.sh
 npm install
-npm install /app2/js_func_log/
+# npm install /app2/js_func_log/
 
 #运行package.json中定义的 命令
 npm run test  

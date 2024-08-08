@@ -20,9 +20,6 @@ importers:
       d3-timer:
         specifier: ^1.0.5
         version: 1.0.10
-      js_func_log:
-        specifier: link:/app2/js_func_log/
-        version: link:../js_func_log
     devDependencies:
       '@types/d3':
         specifier: ^4.5.0
