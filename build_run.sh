@@ -12,7 +12,8 @@ npx phantomjs --version #phantomjs正常运行
 #删除上次编译结果
 rm -fr /app2/WebCola/dist
 mkdir -p /app2/WebCola/dist/src
-cp /app2/WebCola/WebCola/src/_func_log.*.js /app2/WebCola/dist/src/
+cp /app2/WebCola/WebCola/src/_func_log.iife.js /app2/WebCola/dist/src/
+#webcola用 js_func_log.iife.js 编译正常，但是运行报错 'Uncaught TypeError: f._funcNoArgs_enter_log is not a function'
 
 PrjDir=/app2/WebCola
 
