@@ -15,5 +15,12 @@ source PrjNodeJsEnvActivate.sh
 npm install
 npm install /app2/js_func_log/
 
+#运行package.json中定义的 命令
 npm run test  
+npm run prepublish
 
+#安装http-server
+npm install -g http-server
+
+#http-server启动(以目录WebCola为网站内容)
+http-server WebCola/
