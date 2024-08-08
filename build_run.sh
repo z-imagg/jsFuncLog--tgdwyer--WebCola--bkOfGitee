@@ -12,7 +12,7 @@ npx phantomjs --version #phantomjs正常运行
 #删除上次编译结果
 rm -fr /app2/WebCola/dist
 mkdir -p /app2/WebCola/dist/src
-cp /app2/WebCola/WebCola/src/_func_log.cjs.js /app2/WebCola/dist/src/
+cp /app2/WebCola/WebCola/src/_func_log.*.js /app2/WebCola/dist/src/
 
 PrjDir=/app2/WebCola
 
