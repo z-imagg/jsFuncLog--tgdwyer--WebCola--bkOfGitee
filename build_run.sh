@@ -23,4 +23,8 @@ npm run prepublish
 npm install -g http-server
 
 #http-server启动(以目录WebCola为网站内容)
-http-server WebCola/
+http-server WebCola/ &
+#参考 https://github.com/tgdwyer/WebCola/blob/f18ff1c970560295074556eb2af81dd4e8c173b3/README.md#running
+
+
+firefox http://127.0.0.1:8080 1>/dev/null 2>/dev/null &
