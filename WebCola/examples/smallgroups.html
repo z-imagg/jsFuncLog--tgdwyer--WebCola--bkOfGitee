@@ -39,6 +39,19 @@
 <body>
     <a href="../index.html">cola.js home</a>
     <h1>Layout with hierarchical grouping</h1>
+
+<!-- 入口x.html中引入dexie.js并初始化 -->
+<script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+<script>
+window.db_FuncLog = new Dexie('db_FuncLog');
+window.db_FuncLog.version(1).stores({
+    tab_funcLog: '++id, direction,srcFile,method,args,ret'
+});
+//调试变量
+window.db_FuncLog.tab_funcLog._debugVar_rowCnt=0;
+
+</script>
+
 <script src="../extern/d3v4.js"></script>
     <script src="../cola.js"></script>
 <script>
