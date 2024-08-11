@@ -41,8 +41,13 @@
     <a href="../index.html">cola.js home</a>
     <h1>Layout with hierarchical grouping</h1>
 
+    <div>
+        <a id="id__exportLink__db_FuncLog" href="#">export db_FuncLog</a>
+    </div>
+
 <!-- 入口x.html中引入dexie.js并初始化 -->
-<script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dexie@4.0.8/dist/dexie.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dexie-export-import@4.1.2/dist/dexie-export-import.js"></script>
 <script>
 window.db_FuncLog = new Dexie('db_FuncLog' );
 window.db_FuncLog.version(1).stores({
@@ -53,6 +58,41 @@ window._debugVar={}
 window._debugVar.relative_us_modNum=prompt("请输入 relative_us_modNum(对相对微秒秒求余的模),不进入函数writeFuncLog_IndexedDB业务的概率==1/relative_us_modNum","10000");
 window._debugVar._rowCnt=0;
 window._debugVar.start_ms=new Date().valueOf()
+
+//导出indexedDB
+const exportLink = document.getElementById('id__exportLink__db_FuncLog');
+
+// Configure exportLink
+exportLink.onclick = async ()=>{
+  try {
+    //导出indexedDB为blob
+    const blob = await window.db_FuncLog.export({prettyJson: true, _exportDb_progressCallback});
+    //下载blob
+    downloadFileByBlob(blob, "db_FuncLog-export.json" );
+  } catch (error) {
+console.error(''+error);
+  }
+};
+
+function _exportDb_progressCallback ({totalRows, completedRows}) {
+console.log(`Progress: ${completedRows} of ${totalRows} rows completed`);
+}
+
+
+// blob转文件并下载
+function downloadFileByBlob(blob, fileName = "file") {
+  let blobUrl = window.URL.createObjectURL(blob)
+  let link = document.createElement('a')
+  link.download = fileName || 'defaultName'
+  link.style.display = 'none'
+  link.href = blobUrl
+  // 触发点击
+  document.body.appendChild(link)
+  link.click()
+  // 移除
+  document.body.removeChild(link)
+}
+
 
 
 </script>
