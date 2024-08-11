@@ -52,6 +52,8 @@
 const _dbName='db_FuncLog';
 //删除数据库db_FuncLog
 Dexie.delete(_dbName).then(()=>{
+    //_Dexie_init调用处于此匿名function内, 
+    // 而由于then 导致 此匿名函数 总是落后于 外层script执行的 , 而外层script 会立马需要已初始化的Dexie, 因此有矛盾
 //Dexie初始化
     _Dexie_init()
 })
