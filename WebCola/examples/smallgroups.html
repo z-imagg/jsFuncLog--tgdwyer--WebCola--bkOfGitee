@@ -42,7 +42,7 @@
     <h1>Layout with hierarchical grouping</h1>
 
     <div>
-        <a id="id__exportLink__db_FuncLog" href="#">export db_FuncLog</a>
+        <a id="id__exportLink__db_FuncLog" href="#">导出并删除db_FuncLog (indexedDB)</a>
     </div>
 
 <!-- 入口x.html中引入dexie.js并初始化 -->
@@ -50,19 +50,8 @@
 <script src="https://cdn.jsdelivr.net/npm/dexie-export-import@4.1.2/dist/dexie-export-import.js"></script>
 <script>
 const _dbName='db_FuncLog';
-let _db_inited=false;
-//删除数据库db_FuncLog
-Dexie.delete(_dbName).then(()=>{
-    //_Dexie_init调用处于此匿名function内, 
-    // 而由于then 导致 此匿名函数 总是落后于 外层script执行的 , 而外层script 会立马需要已初始化的Dexie, 因此有矛盾
 //Dexie初始化
-    _Dexie_init()
-    _db_inited=true;
-})
-//以死循环 强迫等待 _Dexie_init 执行完 ,但是此死循环占用了cpu 倒是上面的then一直没机会执行?
-while(!_db_inited){
-    delete document.createComment("//以创建注释为等待")
-}
+_Dexie_init()
 
 //Dexie初始化
 function _Dexie_init(){
@@ -113,6 +102,11 @@ function downloadFileByBlob(blob, fileName = "file") {
   link.click()
   // 移除
   document.body.removeChild(link)
+
+  //删除数据库db_FuncLog
+Dexie.delete(_dbName).then(()=>{
+    console.log(`已删除indexed数据库 ${_dbName}`)
+})
 }
 
 
