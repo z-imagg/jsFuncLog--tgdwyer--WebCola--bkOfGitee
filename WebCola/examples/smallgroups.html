@@ -49,9 +49,18 @@
 <script src="https://cdn.jsdelivr.net/npm/dexie@4.0.8/dist/dexie.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dexie-export-import@4.1.2/dist/dexie-export-import.js"></script>
 <script>
-window.db_FuncLog = new Dexie('db_FuncLog' );
+const _dbName='db_FuncLog';
+//若存在数据库db_FuncLog，则删除
+const existed=await Dexie.exists(_dbName)
+if(existed){
+    await Dexie.delete(_dbName)
+}
+
+//新建数据库 db_FuncLog
+window.db_FuncLog = new Dexie(_dbName );
 window.db_FuncLog.version(1).stores({
-    tab_funcLog: '++id, direction,srcFile,method,args,ret'
+    //表 tab_funcLog: 字段id自曾长,其余是普通字段
+    tab_funcLog:     '++id, direction,srcFile,method,args,ret'
 });
 //调试变量
 window._debugVar={}
