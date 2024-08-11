@@ -50,11 +50,9 @@
 <script src="https://cdn.jsdelivr.net/npm/dexie-export-import@4.1.2/dist/dexie-export-import.js"></script>
 <script>
 const _dbName='db_FuncLog';
-//若存在数据库db_FuncLog，则删除
-Dexie.exists(_dbName).then(async existed=>{
-    if(existed){
-        await Dexie.delete(_dbName)
-    }
+//删除数据库db_FuncLog
+Dexie.delete(_dbName).then(()=>{
+//Dexie初始化
     _Dexie_init()
 })
 
