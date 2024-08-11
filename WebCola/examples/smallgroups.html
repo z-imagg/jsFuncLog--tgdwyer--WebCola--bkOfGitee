@@ -43,7 +43,7 @@
 <!-- 入口x.html中引入dexie.js并初始化 -->
 <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
 <script>
-window.db_FuncLog = new Dexie('db_FuncLog');
+window.db_FuncLog = new Dexie('db_FuncLog',{cache:"disabled"});
 window.db_FuncLog.version(1).stores({
     tab_funcLog: '++id, direction,srcFile,method,args,ret'
 });
