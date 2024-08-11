@@ -49,7 +49,9 @@ window.db_FuncLog.version(1).stores({
     tab_funcLog: '++id, direction,srcFile,method,args,ret'
 });
 //调试变量
-window.db_FuncLog.tab_funcLog._debugVar_rowCnt=0;
+window._debugVar={}
+window._debugVar._rowCnt=0;
+window._debugVar.start_ms=new Date().valueOf()
 
 </script>
 
